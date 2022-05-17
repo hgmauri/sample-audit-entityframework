@@ -19,7 +19,7 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
+        
         builder.ApplyConfigurationsFromAssembly(typeof(SampleContext).Assembly);
     }
 

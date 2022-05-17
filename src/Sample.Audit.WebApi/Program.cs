@@ -16,11 +16,11 @@ try
 
     builder.Services.AddDbContext<SampleContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.BuildServiceProvider().GetService<SampleContext>()?.Database.Migrate();
 
     builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Sample Entity Framework", Version = "v1"}); });
 
     var app = builder.Build();
-    app.Services.GetService<SampleContext>()?.Database.Migrate();
 
     if (app.Environment.IsDevelopment())
     {
