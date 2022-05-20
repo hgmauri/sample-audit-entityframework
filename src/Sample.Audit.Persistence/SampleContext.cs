@@ -16,17 +16,17 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
         HttpContext = httpContext;
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-        
-        builder.ApplyConfigurationsFromAssembly(typeof(SampleContext).Assembly);
-    }
-
     public DbSet<Entities.Audit> Audits { get; set; }
     public DbSet<Company> Companies { get; set; }
     public override DbSet<User> Users { get; set; }
     public override DbSet<Role> Roles { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.ApplyConfigurationsFromAssembly(typeof(SampleContext).Assembly);
+    }
 
     public override int SaveChanges()
     {
@@ -76,12 +76,10 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
                             auditEntry.AuditType = AuditType.Create;
                             auditEntry.NewValues[propertyName] = property.CurrentValue;
                             break;
-
                         case EntityState.Deleted:
                             auditEntry.AuditType = AuditType.Delete;
                             auditEntry.OldValues[propertyName] = property.OriginalValue;
                             break;
-
                         case EntityState.Modified:
                             if (property.IsModified)
                             {

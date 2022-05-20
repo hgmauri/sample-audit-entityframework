@@ -5,7 +5,9 @@ namespace Sample.Audit.Persistence.Entities;
 
 public class Base
 {
-    [Key][Required] public virtual Guid Id { get; set; } = Guid.NewGuid();
+    [Key]
+    [Required] 
+    public virtual Guid Id { get; set; } = Guid.NewGuid();
 
     public virtual DateTime? CreatedAt { get; set; }
 
