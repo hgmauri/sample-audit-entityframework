@@ -17,7 +17,7 @@ try
     builder.Services.AddDbContext<SampleContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     builder.Services.BuildServiceProvider().GetService<SampleContext>()?.Database.Migrate();
 
-    builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample Audit", Version = "v1" }); });
+    builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Sample Audit", Version = "v1"}); });
 
     var app = builder.Build();
 

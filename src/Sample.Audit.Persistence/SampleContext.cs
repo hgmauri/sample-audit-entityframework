@@ -10,6 +10,7 @@ namespace Sample.Audit.Persistence;
 public class SampleContext : IdentityDbContext<User, Role, Guid>
 {
     public IHttpContextAccessor HttpContext { get; }
+
     public SampleContext(DbContextOptions options, IHttpContextAccessor httpContext)
         : base(options)
     {
@@ -32,6 +33,7 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
     {
         BeforeSaveChanges().ConfigureAwait(false).GetAwaiter().GetResult();
         var result = base.SaveChanges();
+
         return result;
     }
 
@@ -39,6 +41,7 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
     {
         await BeforeSaveChanges();
         var result = await base.SaveChangesAsync(cancellationToken);
+
         return result;
     }
 
@@ -57,16 +60,20 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
                 }
 
                 if (entry.Entity is Entities.Audit || entry.State is EntityState.Detached or EntityState.Unchanged)
+                {
                     continue;
+                }
 
-                var auditEntry = new AuditEntry(entry) { TableName = entry.Entity.GetType().Name, UserId = login };
+                var auditEntry = new AuditEntry(entry) {TableName = entry.Entity.GetType().Name, UserId = login};
 
                 foreach (var property in entry.Properties)
                 {
                     var propertyName = property.Metadata.Name;
+
                     if (property.Metadata.IsPrimaryKey())
                     {
                         auditEntry.KeyValues[propertyName] = property.CurrentValue;
+
                         continue;
                     }
 
@@ -75,10 +82,12 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
                         case EntityState.Added:
                             auditEntry.AuditType = AuditType.Create;
                             auditEntry.NewValues[propertyName] = property.CurrentValue;
+
                             break;
                         case EntityState.Deleted:
                             auditEntry.AuditType = AuditType.Delete;
                             auditEntry.OldValues[propertyName] = property.OriginalValue;
+
                             break;
                         case EntityState.Modified:
                             if (property.IsModified)
@@ -88,8 +97,10 @@ public class SampleContext : IdentityDbContext<User, Role, Guid>
                                 auditEntry.OldValues[propertyName] = property.OriginalValue;
                                 auditEntry.NewValues[propertyName] = property.CurrentValue;
                             }
+
                             break;
                     }
+
                     await Audits.AddAsync(auditEntry.ToAudit());
                 }
             }

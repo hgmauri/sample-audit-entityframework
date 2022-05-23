@@ -18,7 +18,7 @@ public class CompanyController : ControllerBase
     [HttpPost]
     public async Task<OkObjectResult> PostCompany(string name)
     {
-        var result = await _context.Companies.AddAsync(new Company {Name = name });
+        var result = await _context.Companies.AddAsync(new Company {Name = name});
         await _context.SaveChangesAsync();
 
         return Ok(result.Entity.Id.ToString());
@@ -34,6 +34,7 @@ public class CompanyController : ControllerBase
             result.Name = newName;
             await _context.SaveChangesAsync();
         }
+
         return Ok();
     }
 }

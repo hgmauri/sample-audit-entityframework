@@ -17,7 +17,7 @@ public class Audit
     public string PrimaryKey { get; set; }
 }
 
-public class AuditEntry 
+public class AuditEntry
 {
     public AuditEntry(EntityEntry entry) => Entry = entry;
 

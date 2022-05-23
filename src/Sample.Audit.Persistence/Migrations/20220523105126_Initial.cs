@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Sample.EntityFramework.Persistence.Migrations
+namespace Sample.Audit.Persistence.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,9 +35,7 @@ namespace Sample.EntityFramework.Persistence.Migrations
                     OldValues = table.Column<string>(type: "varchar(8000)", maxLength: 8000, nullable: true),
                     NewValues = table.Column<string>(type: "varchar(8000)", maxLength: 8000, nullable: true),
                     AffectedColumns = table.Column<string>(type: "varchar(8000)", maxLength: 8000, nullable: true),
-                    PrimaryKey = table.Column<string>(type: "varchar(8000)", maxLength: 8000, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    PrimaryKey = table.Column<string>(type: "varchar(8000)", maxLength: 8000, nullable: true)
                 },
                 constraints: table =>
                 {

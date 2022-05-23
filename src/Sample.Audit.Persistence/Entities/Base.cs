@@ -5,8 +5,8 @@ namespace Sample.Audit.Persistence.Entities;
 
 public class Base
 {
-    [Key]
-    [Required] 
+    [Key] 
+    [Required]
     public virtual Guid Id { get; set; } = Guid.NewGuid();
 
     public virtual DateTime? CreatedAt { get; set; }
@@ -20,9 +20,11 @@ public class Base
             case EntityState.Added:
             case EntityState.Detached:
                 CreatedAt = DateTime.Now;
+
                 break;
             case EntityState.Modified:
                 UpdatedAt = DateTime.Now;
+
                 break;
         }
     }
